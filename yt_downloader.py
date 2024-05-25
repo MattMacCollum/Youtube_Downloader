@@ -21,11 +21,16 @@ def srt_download():
         ytlink = link.get()
         yt_obj = YouTube(ytlink, on_progress_callback=on_progress)
         vid = yt_obj.streams.get_highest_resolution()
-        vid.download(pth)
-    except:
-        print("Exception occurred")
 
-    print("Download finished")
+        ttl.configure(text=yt_obj.title)
+
+        vid.download(pth)
+
+        finish.configure(text='Download Finished')
+
+    except:
+        finish.configure(
+            text='Exception occcure during download', text_color='red')
 
 
 desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
@@ -50,6 +55,9 @@ link.pack()
 
 dwnld = customtkinter.CTkButton(app, text='Download', command=srt_download)
 dwnld.pack(padx=10, pady=10)
+
+finish = customtkinter.CTkLabel(app, text=" ")
+finish.pack()
 
 # Run the application
 app.mainloop()
